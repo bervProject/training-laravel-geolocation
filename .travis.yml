@@ -2,11 +2,18 @@ language: php
 php:
   - '7.3'
 
-before_script:
+before_install:
+  - nvm install lts/*
+
+install:
   - yarn
   - yarn prod
+  - composer install
   - cp .env.example .env
   - php artisan key:generate
 
 script:
   - vendor/bin/phpunit --coverage-clover coverage.xml
+
+after_script:
+  - bash <(curl -s https://codecov.io/bash)
